@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture du Livre</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .book-content {
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .disabled {
+            user-select: none; /* Empêche la sélection du texte */
+        }
+    </style>
+</head>
+<body>
+    <h1>Votre Livre</h1>
+    <div class="book-content disabled">
+        <p>Bienvenue dans le premier chapitre de votre livre numérique.</p>
+        <p>Ceci est un exemple de contenu protégé. Le copier-coller est désactivé.</p>
+    </div>
+    <script>
+        // Désactiver clic droit pour éviter le copier
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            alert("Copier-coller désactivé !");
+        });
+    </script>
+</body>
+</html>
