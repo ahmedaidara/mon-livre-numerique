@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Livre Numérique</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        #login {
+            margin-top: 50px;
+            padding: 20px;
+            background: white;
+            display: inline-block;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        input, button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .payment-btn {
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+        }
+        .payment-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenue sur Mon Livre Numérique</h1>
+    <div id="login">
+        <h2>Connexion</h2>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Mot de passe" required>
+            <button type="submit">Se connecter</button>
+        </form>
+    </div>
+
+    <!-- Ajouter le bouton de paiement ici -->
+    <div id="payment-section" style="display: none; margin-top: 50px;">
+        <h2>Achetez le livre numérique</h2>
+        <a href="https://example.orange.money/payment-link" target="_blank">
+            <button class="payment-btn">Payer via Orange Money</button>
+        </a>
+
+        <a href="https://www.flutterwave.com/pay/example-link" target="_blank">
+            <button class="payment-btn">Payer via Wave</button>
+        </a>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Simuler une vérification des identifiants
+            if (email === "test@test.com" && password === "1234") {
+                alert("Connexion réussie !");
+                // Afficher le bouton de paiement après connexion réussie
+                document.getElementById('payment-section').style.display = 'block';
+            } else {
+                alert("Email ou mot de passe incorrect.");
+            }
+        });
+    </script>
+</body>
+</html>
