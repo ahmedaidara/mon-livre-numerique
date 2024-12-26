@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Livre Numérique</title>
+    <title>Mon Livre Numérique - Connexion</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,7 +30,6 @@
             font-size: 16px;
         }
     </style>
-    <script src="https://apis.google.com/js/api.js"></script>
 </head>
 <body>
     <h1>Bienvenue sur Mon Livre Numérique</h1>
@@ -41,8 +40,10 @@
             <input type="password" id="password" placeholder="Mot de passe" required>
             <button type="submit">Se connecter</button>
         </form>
+        <p>Pas encore de compte ? <a href="signup.html">Créer un compte</a></p>
     </div>
 
+    <script src="https://apis.google.com/js/api.js"></script>
     <script>
         document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -86,25 +87,23 @@
             const spreadsheetId = '1BVHAtWGir5Ple0_nL-J1s4qXH_Et6N1ttfkKQmyjKcc'; // Remplacez par l'ID de votre feuille
             const range = 'Sheet1!A1'; // Plage pour l'ajout des données (par exemple, dans la colonne A)
             
-            // Exemple de données à ajouter : Email et Date de connexion
             const values = [
-                [email, new Date().toLocaleString()]  // Ajout du mail et de la date de connexion
+                [email, new Date().toLocaleString()]  // Ajout de l'email et de la date de connexion
             ];
 
             const body = {
                 values: values
             };
 
-            // Écrire dans la feuille Google Sheets
             gapi.client.sheets.spreadsheets.values.append({
                 spreadsheetId: spreadsheetId,
                 range: range,
                 valueInputOption: 'RAW',
                 resource: body
-            }).then(function(response) {
+            }).then(response => {
                 console.log("Utilisateur ajouté à Google Sheets : ", response);
-            }, function(error) {
-                console.error("Erreur lors de l'ajout de l'utilisateur : ", error);
+            }).catch(error => {
+                console.error("Erreur lors de l'ajout de l'utilisateur :", error);
             });
         }
     </script>
