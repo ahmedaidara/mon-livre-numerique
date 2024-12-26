@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Livre Numérique - Inscription</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        #signup {
+            margin-top: 50px;
+            padding: 20px;
+            background: white;
+            display: inline-block;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        input, button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenue sur Mon Livre Numérique - Inscription</h1>
+    <div id="signup">
+        <h2>Inscription</h2>
+        <form id="signup-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Mot de passe" required>
+            <button type="submit">S'inscrire</button>
+        </form>
+    </div>
+
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Vérification si l'email existe déjà dans la feuille Google Sheets
+            checkIfEmailExists(email);
+        });
+
+        // Initialiser l'API Google et l'authentification OAuth 2.0
+        function start() {
+            gapi.client.init({
+                'apiKey': 'AIzaSyAfOZBS8Aj5zuP7c7H0p53gVgPP3eVL-ew', // Remplacez par votre clé API
+                'clientId': '514423007006-fcgb4f8c1mst6dac9d11hobrm6d41l1e.apps.googleusercontent.com', // Remplacez par votre ID client
+                'scope': 'https://www.googleapis.com/auth/spreadsheets',
+                'discoveryDocs': ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+            }).then(function () {
+                console.log("API Google initialisée.");
+            }).catch(function (error) {
+                console.error("Erreur d'initialisation de l'API :", error);
+            });
+        }
+
+        // Charger la bibliothèque et démarrer l'authentification
+        gapi.load('client:auth2', start);
+
+        // Vérifier si l'email existe déjà dans Google Sheets
+        function checkIfEmailExists(email) {
+            const spreadsheetId = '1BVHAtWGir5Ple0_nL-J1s4qXH_Et6N1ttfkKQmyjKcc'; // Remplacez par l'ID de votre feuille
+            const range = 'Sheet1!A:A'; // Plage de la colonne contenant les emails (par exemple, la colonne A)
+
+            gapi.client.sheets.spreadsheets.values.get({
+                spreadsheetId: spreadsheetId,
+                range: range
+            }).then(function(response) {
+                const rows = response.result.values;
+                let emailExists = false;
+
+                if (rows) {
+                    // Vérification si l'email existe déjà
+                    for (let i = 0; i < rows.length; i++) {
+                        if (rows[i][0] === email) {
+                            emailExists = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (emailExists) {
+                    alert("Cet email est déjà enregistré. Veuillez vous connecter.");
+                } else {
+                    // Ajouter l'utilisateur à Google Sheets si l'email n'existe pas
+                    addUserToSheet(email);
+                }
+            }).catch(function(error) {
+                console.error("Erreur lors de la vérification de l'email :", error);
+            });
+        }
+
+        // Ajouter un utilisateur dans Google Sheets
+        function addUserToSheet(email) {
+            const spreadsheetId = '1BVHAtWGir5Ple0_nL-J1s4qXH_Et6N1ttfkKQmyjKcc'; // ID de votre feuille Google Sheets
+            const range = 'Sheet1!A1'; // Plage pour l'ajout des données (par exemple, dans la colonne A)
+            
+            const values = [
+                [email, new Date().toLocaleString()]  // Ajout de l'email et de la date d'inscription
+            ];
+
+            const body = {
+                values: values
+            };
+
+            // Écrire dans la feuille Google Sheets
+            gapi.client.sheets.spreadsheets.values.append({
+                spreadsheetId: spreadsheetId,
+                range: range,
+                valueInputOption: 'RAW',
+                resource: body
+            }).then(function(response) {
+                alert("Inscription réussie !");
+                window.location.href = "index.html";  // Rediriger vers la page de connexion
+            }).catch(function(error) {
+                console.error("Erreur lors de l'ajout de l'utilisateur :", error);
+            });
+        }
+    </script>
+</body>
+</html>
